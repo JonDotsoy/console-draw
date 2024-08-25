@@ -1,6 +1,8 @@
 {
   "name": "@jondotsoy/console-draw",
   "module": "index.ts",
+  "version": "0.1.0",
+  "description": "Draw in the terminal using simple-to-use components",
   "type": "module",
   "license": "MIT",
   "typesVersions": {
@@ -15,6 +17,9 @@
     "require": "./lib/cjs/index.js",
     "types": "./lib/types/index.d.ts"
   },
+  "files": [
+    "lib"
+  ],
   "devDependencies": {
     "@types/bun": "latest"
   },
