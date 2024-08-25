@@ -1,0 +1,26 @@
+{
+  "name": "@jondotsoy/console-draw",
+  "module": "index.ts",
+  "type": "module",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "lib/types/*"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "author": {
+    "email": "hi@jon.soy",
+    "name": "Jonathan Delgado",
+    "url": "https://jon.soy"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@jondotsoy/style-text": "^0.9.1"
+  }
+}
