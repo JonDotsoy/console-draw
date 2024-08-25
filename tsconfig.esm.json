@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ES2020",
+    "noEmit": false,
+    "emitDeclarationOnly": false,
+    "allowImportingTsExtensions": false,
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
+    "verbatimModuleSyntax": false
+  },
+  "exclude": ["lib", "*.spec.ts"]
+}

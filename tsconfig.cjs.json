@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2018",
+    "noEmit": false,
+    "emitDeclarationOnly": false,
+    "allowImportingTsExtensions": false,
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "verbatimModuleSyntax": false
+  },
+  "exclude": ["lib", "*.spec.ts"]
+}
