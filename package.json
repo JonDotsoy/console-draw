@@ -2,6 +2,7 @@
   "name": "@jondotsoy/console-draw",
   "module": "index.ts",
   "type": "module",
+  "license": "MIT",
   "typesVersions": {
     "*": {
       "*": [
