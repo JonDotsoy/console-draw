@@ -17,10 +17,18 @@
     "name": "Jonathan Delgado",
     "url": "https://jon.soy"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonDotsoy/console-draw.git"
+  },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "prettier": "^3.3.3"
   },
   "dependencies": {
     "@jondotsoy/style-text": "^0.9.1"
+  },
+  "scripts": {
+    "fmt": "prettier -w ."
   }
 }
