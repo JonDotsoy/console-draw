@@ -272,10 +272,9 @@ class ColumnsComponent extends Component {
         const matrix = childMatrixes.at(collIndex);
         // const isEndColumn = collIndex + 1 >= flowColumns;
         const childLine = matrix?.matrix.at(rowIndex) ?? "";
-        line += childLine.padEnd(
-          realColumnsTemplate.at(collIndex)?.width ?? maxWidthPerColumns,
-          " ",
-        );
+        const padSize =
+          realColumnsTemplate.at(collIndex)?.width ?? maxWidthPerColumns;
+        line += childLine.padEnd(padSize === Infinity ? 0 : padSize, " ");
         line += " ".repeat(gap);
       }
       lines.push(line);
