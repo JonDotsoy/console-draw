@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { render, componentModules } from "./index.js";
+import { c, render, componentModules } from "./index.js";
 import { styleText } from "@jondotsoy/style-text";
 
 test("should render a simple text", () => {
@@ -8,7 +8,7 @@ test("should render a simple text", () => {
   );
 });
 
-test("should render a multiple texts", () => {
+test.only("should render a multiple texts", () => {
   expect(
     render(
       componentModules.createElement("div", [
@@ -116,4 +116,25 @@ test("should render a simple text but clean the text style", () => {
       ),
     ),
   ).toEqual("hola mundo");
+});
+
+test.only("should render a div with border", () => {
+  expect(
+    render(c("div", { border: {} }, c("text", "hola")), { width: 40 }),
+  ).toMatchSnapshot();
+});
+test.only("should render a div with border with format on border", () => {
+  expect(
+    render(c("div", { border: { format: ["blue"] } }, c("text", "hola")), {
+      width: 40,
+    }),
+  ).toMatchSnapshot();
+});
+
+test.only("should render a div with border and padding", () => {
+  expect(
+    render(c("div", { border: { padding: 1 } }, c("text", "hola")), {
+      width: 40,
+    }),
+  ).toMatchSnapshot();
 });
