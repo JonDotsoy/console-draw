@@ -388,5 +388,6 @@ export const render = (
   element: Component,
   options?: Partial<ComponentOptions>,
 ) => {
-  return element.toString(options ?? {});
+  const width = process?.stdout?.columns;
+  return element.toString({ width, ...options });
 };
