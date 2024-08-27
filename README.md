@@ -19,10 +19,10 @@ The `createElement` method is a core function in the @jondotsoy/console-draw pro
 #### Syntax
 
 ```ts
-componentModules.createElement(name);
-componentModules.createElement(name, options);
-componentModules.createElement(name, children);
-componentModules.createElement(name, options, children);
+c(name);
+c(name, options);
+c(name, children);
+c(name, options, children);
 ```
 
 #### Arguments
@@ -34,22 +34,17 @@ componentModules.createElement(name, options, children);
 #### Examples
 
 ```ts
-import { render, componentModules } from "@jondotsoy/console-draw";
+import { render, c } from "@jondotsoy/console-draw";
 
 // Example 1: Creating a simple "div" component with two "text" components as children.
-render(
-  componentModules.createElement("div", [
-    componentModules.createElement("text", "text 1"),
-    componentModules.createElement("text", "text 2"),
-  ]),
-);
+render(c("div", [c("text", "text 1"), c("text", "text 2")]));
 
 // Output:
 // text 1
 // text 2
 
 // Example 2: Creating a single text component without any options or children.
-render(componentModules.createElement("text", ["Hello, World!"]));
+render(c("text", ["Hello, World!"]));
 
 // Output:
 // Hello, World!
@@ -67,19 +62,15 @@ The following options can be used to customize the behavior of the `TextComponen
 #### Examples
 
 ```ts
-import { render, componentModules } from "@jondotsoy/console-draw";
+import { render, c } from "@jondotsoy/console-draw";
 
 // Render a simple text component without any options.
-render(
-componentModules.createElement("text", "Hello, World!")),
-);
+render(c("text", "Hello, World!")));
 
 // Output:
 // Hello, World!
 
-render(
-componentModules.createElement("text", `${styleText("red", "Hello")}, World!`),
-));
+render(c("text", `${styleText("red", "Hello")}, World!`));
 
 // Output:
 // "\u001B[31mHello\u001B[39m, World!"
@@ -101,17 +92,17 @@ The following options can be used to customize the behavior of the `ColumnsCompo
 #### Example
 
 ```ts
-import { render, componentModules } from "@jondotsoy/console-draw";
+import { render, c } from "@jondotsoy/console-draw";
 
 // Render three columns with automatically calculated widths.
 render(
-  componentModules.createElement("columns", { columns: 3 }, [
-    componentModules.createElement("text", `Lorem ipsum dolor`),
-    componentModules.createElement(
+  c("columns", { columns: 3 }, [
+    c("text", `Lorem ipsum dolor`),
+    c(
       "text",
       `Lorem ipsum dolor sit ${styleText("red", "amet, consectetur")} adipiscing elit`,
     ),
-    componentModules.createElement(
+    c(
       "text",
       `Lorem ipsum ${styleText(["bold", "blue"], `dolor`)} sit ${styleText("red", "amet, consectetur")} adipiscing elit`,
     ),
@@ -124,6 +115,55 @@ render(
 ```
 
 ![Example Snap Columns with 3 long](docs/assets/snap-sample-columns-1.png)
+
+### ContentDivisionComponent Interface
+
+The `ContentDivisionComponent` interface is a component in the @jondotsoy/console-draw project that enables grouping and rendering of multiple elements together.
+
+#### Options
+
+The following options can be used to customize the behavior of the `ContentDivisionComponent`:
+
+- `width` `<number>`: Specifies the width of the rendered content.
+- `border` `<object>`: Defines the configuration for applying a border to the component. The `border` object has the following properties:
+  - `theme`: `<'default' | 'double'>` Applies a simple or double line style to the border.
+  - `format`: `<string|string[]>` Applies a specific style to the border.
+  - `padding`: `<number>` Creates a margin between the content and the border, if possible.
+
+#### Example
+
+```ts
+import { render, c } from "@jondotsoy/console-draw";
+
+render(c("div", [c("text", "text 1"), c("text", "text 2")]));
+
+// Output:
+//
+// text 1
+// text 2
+
+// Render a "div" element with a default border and a width of 40.
+render(c("div", { border: {} }, [c("text", "hola")]), { width: 40 });
+
+// Output:
+//
+// ┌──────────────────────────────────────┐
+// │ hola                                 │
+// └──────────────────────────────────────┘
+
+// Render a "div" element with a border that has padding and a width of 40.
+render(c("div", { border: { padding: 1 } }, [c("text", "hola")]), {
+  width: 40,
+});
+
+// Output:
+//
+// ┌────────────────────────────────────────┐
+// │                                        │
+// │ hola                                   │
+// │                                        │
+// └────────────────────────────────────────┘
+```
 
 ## Contributing
 
