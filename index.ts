@@ -38,6 +38,11 @@ type ComponentOptions = {
   columnsTemplate: (null | { width?: number })[];
   gap: number;
   width: number;
+  border: Partial<{
+    theme: string;
+    format: string | string[];
+    padding: number;
+  }>;
 };
 
 type VisualMatrix = {
@@ -289,7 +294,7 @@ class ColumnsComponent extends Component {
 }
 
 class ContentDivisionComponent extends Component {
-  getVisualMatrix(options: Partial<ComponentOptions>): VisualMatrix {
+  getVisualMatrixChild(options: Partial<ComponentOptions>): VisualMatrix {
     const childrenMatrixes = this.children.map((child) =>
       child.getVisualMatrix(options),
     );
@@ -308,6 +313,97 @@ class ContentDivisionComponent extends Component {
       height,
       matrix: lines,
     };
+  }
+
+  getVisualMatrixWithBorder(options: Partial<ComponentOptions>): VisualMatrix {
+    const width = options.width ?? 80;
+    const borderOptions = options.border ?? this.defaultOptions?.border;
+    const withBorder = borderOptions !== undefined;
+    const borderPadding =
+      borderOptions?.padding ?? this.defaultOptions?.border?.padding ?? 0;
+    const borderTheme =
+      borderOptions?.theme ?? this.defaultOptions?.border?.theme ?? "node";
+    const borderFormat =
+      borderOptions?.format ?? this.defaultOptions?.border?.format ?? [];
+
+    if (!withBorder) return this.getVisualMatrixChild(options);
+
+    const themes = {
+      /*
+        ┌─────────────┐
+        │             │
+        │   unicorn   │
+        │             │
+        └─────────────┘
+      */
+      default: {
+        top: "─",
+        left: "│",
+        right: "│",
+        button: "─",
+        topLeft: "┌",
+        topRight: "┐",
+        bottomLeft: "└",
+        bottomRight: "┘",
+      },
+      /*
+      ╔═════════════╗
+      ║             ║
+      ║   unicorn   ║
+      ║             ║
+      ╚═════════════╝
+       */
+      double: {
+        top: "═",
+        left: "║",
+        right: "║",
+        button: "═",
+        topLeft: "╔",
+        topRight: "╗",
+        bottomLeft: "╚",
+        bottomRight: "╝",
+      },
+    } as const;
+    const isValidThemeName = (name: string): name is keyof typeof themes =>
+      Reflect.has(themes, name);
+
+    const theme = isValidThemeName(borderTheme)
+      ? themes[borderTheme]
+      : themes.default;
+
+    const newWidth = width - 2 - borderPadding * 2;
+
+    const childVisualMatrix = this.getVisualMatrixChild({
+      ...options,
+      width: newWidth,
+    });
+
+    const header = `${theme.topLeft}${theme.top.repeat(width - 2 + 2 * borderPadding)}${theme.topRight}`;
+    const paddingHeaderFooter = Array.from(
+      Array(borderPadding).keys(),
+      () =>
+        `${theme.left}${" ".repeat(borderPadding)}${"".padEnd(width - 2)}${" ".repeat(borderPadding)}${theme.right}`,
+    );
+    const footer = `${theme.bottomLeft}${theme.button.repeat(width - 2 + 2 * borderPadding)}${theme.bottomRight}`;
+
+    return {
+      height: childVisualMatrix.height + 2,
+      width: childVisualMatrix.width + 2 * borderPadding + 2,
+      matrix: [
+        styleText(borderFormat, header),
+        ...paddingHeaderFooter.map((e) => styleText(borderFormat, e)),
+        ...childVisualMatrix.matrix.map(
+          (line) =>
+            `${styleText(borderFormat, theme.left)}${" ".repeat(borderPadding)}${line}${" ".repeat(width - childVisualMatrix.width - 2)}${" ".repeat(borderPadding)}${styleText(borderFormat, theme.right)}`,
+        ),
+        ...paddingHeaderFooter.map((e) => styleText(borderFormat, e)),
+        styleText(borderFormat, footer),
+      ],
+    };
+  }
+
+  getVisualMatrix(options: Partial<ComponentOptions>): VisualMatrix {
+    return this.getVisualMatrixWithBorder(options);
   }
 }
 
@@ -344,7 +440,9 @@ const parseCreateElementArguments = (
   return {};
 };
 
-class ComponentModules {
+export class ComponentModules {
+  static ComponentModules = ComponentModules;
+
   #classComponents = new Map<string, { new (): Component }>();
   constructor() {
     this.definedComponent("text", TextComponent);
@@ -382,7 +480,10 @@ class ComponentModules {
   }
 }
 
+/** Global instance to componentModules */
 export const componentModules = new ComponentModules();
+/** Alias to componentModules.createElement */
+export const c = componentModules.createElement.bind(componentModules);
 
 export const render = (
   element: Component,
