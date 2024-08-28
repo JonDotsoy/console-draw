@@ -180,3 +180,18 @@ test("should make a visual matrix with div, columns and text elements", () => {
 
   expect(visualMatrix.width).toEqual(40);
 });
+
+test("should render a div with border", () => {
+  const output = render(
+    c("div", { border: {} }, [
+      c("text", "header"),
+      c("text"),
+      c("text", "footer cool"),
+    ]),
+    {
+      width: 40,
+    },
+  );
+
+  expect(output).toMatchSnapshot();
+});

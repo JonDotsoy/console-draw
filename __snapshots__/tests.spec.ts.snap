@@ -40,3 +40,11 @@ exports[`should render a div with border and columns 1`] = `
 ┃                                        ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
 `;
+
+exports[`should render a div with border 2`] = `
+"┌──────────────────────────────────────┐
+│header                                │
+│                                      │
+│footer cool                           │
+└──────────────────────────────────────┘"
+`;
