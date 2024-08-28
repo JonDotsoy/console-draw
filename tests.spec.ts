@@ -8,7 +8,7 @@ test("should render a simple text", () => {
   );
 });
 
-test.only("should render a multiple texts", () => {
+test("should render a multiple texts", () => {
   expect(
     render(
       componentModules.createElement("div", [
@@ -62,9 +62,7 @@ test("should render a columns component with a long text formatted", () => {
     ]),
     { width: 80 },
   );
-  expect(draw).toEqual(
-    "Lorem ipsum dolor         Lorem ipsum dolor sit \u001B[31mam\u001B[39m  Lorem ipsum \u001B[1m\u001B[34mdolor\u001B[39m\u001B[22m sit \u001B[31mam\u001B[39m  \n                          \u001B[31met, consectetur\u001B[39m adipisci  \u001B[31met, consectetur\u001B[39m adipisci  \n                          ng elit                   ng elit                   ",
-  );
+  expect(draw).toMatchSnapshot();
 });
 
 test("should render a columns component with a specific size per column", () => {
@@ -87,9 +85,7 @@ test("should render a columns component with a specific size per column", () => 
     { width: 80 },
   );
 
-  expect(draw).toEqual(
-    "Lorem ipsu  Lorem ipsum dolor sit \u001B[31mamet, cons\u001B[39m  Lorem ipsum dolor sit \u001B[31mamet, cons\u001B[39m  \nm dolor     \u001B[31mectetur\u001B[39m adipiscing elit. Lorem i  \u001B[31mectetur\u001B[39m adipiscing elit. Lorem i  \n            psum \u001B[1m\u001B[34mdolor\u001B[39m\u001B[22m sit \u001B[31mamet, consectetur\u001B[39m  psum \u001B[1m\u001B[34mdolor\u001B[39m\u001B[22m sit \u001B[31mamet, consectetur\u001B[39m  \n             adipiscing elit                   adipiscing elit                  ",
-  );
+  expect(draw).toMatchSnapshot();
 });
 
 test("should render a simple text with color", () => {
@@ -118,12 +114,12 @@ test("should render a simple text but clean the text style", () => {
   ).toEqual("hola mundo");
 });
 
-test.only("should render a div with border", () => {
+test("should render a div with border", () => {
   expect(
     render(c("div", { border: {} }, c("text", "hola")), { width: 40 }),
   ).toMatchSnapshot();
 });
-test.only("should render a div with border with format on border", () => {
+test("should render a div with border with format on border", () => {
   expect(
     render(c("div", { border: { format: ["blue"] } }, c("text", "hola")), {
       width: 40,
@@ -131,10 +127,56 @@ test.only("should render a div with border with format on border", () => {
   ).toMatchSnapshot();
 });
 
-test.only("should render a div with border and padding", () => {
+test("should render a div with border and padding", () => {
   expect(
     render(c("div", { border: { padding: 1 } }, c("text", "hola")), {
       width: 40,
     }),
   ).toMatchSnapshot();
+});
+
+test("should render a div with border and columns", () => {
+  const newLocal = render(
+    c(
+      "div",
+      { border: { padding: 1, theme: "thick" } },
+      c("columns", { columns: 2 }, [
+        c("text", `${styleText("red", "hola")}`),
+        c("text", "hola"),
+      ]),
+    ),
+    {
+      width: 40,
+    },
+  );
+
+  expect(newLocal).toMatchSnapshot();
+});
+
+test("should make a visual matrix of a text with width 5", () => {
+  const visualMatrix = c("text", "hello").getVisualMatrix({});
+
+  expect(visualMatrix.width).toEqual(5);
+});
+
+test("should make a visual matrix of a text with style with width 5", () => {
+  const visualMatrix = c(
+    "text",
+    `${styleText(["red", "bold"], "hello")}\nA/${styleText(["red", "bold"], "T")}`,
+  ).getVisualMatrix({});
+
+  expect(visualMatrix.width).toEqual(5);
+});
+
+test("should make a visual matrix with div, columns and text elements", () => {
+  const visualMatrix = c(
+    "div",
+    { border: { padding: 1, theme: "thick" } },
+    c("columns", { columns: 2 }, [
+      c("text", `${styleText("red", "hola")}`),
+      c("text", "hola"),
+    ]),
+  ).getVisualMatrix({ width: 40 });
+
+  expect(visualMatrix.width).toEqual(40);
 });

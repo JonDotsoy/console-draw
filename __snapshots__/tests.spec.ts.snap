@@ -1,5 +1,18 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should render a columns component with a long text formatted 1`] = `
+"Lorem ipsum dolor         Lorem ipsum dolor sit [31mam[39m  Lorem ipsum [1m[34mdolor[39m[22m sit [31mam[39m  
+         [31met, consectetur[39m adipisci  [31met, consectetur[39m adipisci  
+         ng elit  ng elit  "
+`;
+
+exports[`should render a columns component with a specific size per column 1`] = `
+"Lorem ipsu  Lorem ipsum dolor sit [31mamet, cons[39m  Lorem ipsum dolor sit [31mamet, cons[39m  
+m dolor  [31mectetur[39m adipiscing elit. Lorem i  [31mectetur[39m adipiscing elit. Lorem i  
+  psum [1m[34mdolor[39m[22m sit [31mamet, consectetur[39m  psum [1m[34mdolor[39m[22m sit [31mamet, consectetur[39m  
+   adipiscing elit   adipiscing elit  "
+`;
+
 exports[`should render a div with border 1`] = `
 "┌──────────────────────────────────────┐
 │hola                                  │
@@ -18,4 +31,12 @@ exports[`should render a div with border and padding 1`] = `
 │ hola                                   │
 │                                        │
 └────────────────────────────────────────┘"
+`;
+
+exports[`should render a div with border and columns 1`] = `
+"┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                        ┃
+┃ [31mhola[39m              hola                 ┃
+┃                                        ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
 `;
