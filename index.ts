@@ -413,7 +413,8 @@ class ContentDivisionComponent extends Component {
         ...paddingHeaderFooter.map((e) => styleText(borderFormat, e)),
         ...childVisualMatrix.matrix.map(
           (line) =>
-            `${styleText(borderFormat, theme.left)}${" ".repeat(borderPadding)}${line}${" ".repeat(width - childVisualMatrix.width - 2)}${" ".repeat(borderPadding)}${styleText(borderFormat, theme.right)}`,
+            // TODO: Require refactor this line. Is required remove the unstyledText function helper. may be a big process.
+            `${styleText(borderFormat, theme.left)}${" ".repeat(borderPadding)}${line}${" ".repeat(width - unstyleText(line).length - 2)}${" ".repeat(borderPadding)}${styleText(borderFormat, theme.right)}`,
         ),
         ...paddingHeaderFooter.map((e) => styleText(borderFormat, e)),
         styleText(borderFormat, footer),
