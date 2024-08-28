@@ -55,7 +55,9 @@ type VisualMatrix = {
 };
 
 type Part = {
+  /** Plain Value */
   value: string;
+  /** Styles apply by ascii code */
   styles: string[];
 };
 
@@ -279,7 +281,7 @@ class ColumnsComponent extends Component {
         const childLine = matrix?.matrix.at(rowIndex) ?? "";
         const padSize =
           realColumnsTemplate.at(collIndex)?.width ?? maxWidthPerColumns;
-        line += childLine.padEnd(padSize === Infinity ? 0 : padSize, " ");
+        line += `${childLine}${" ".repeat(padSize - (matrix?.width ?? 0))}`;
         line += " ".repeat(gap);
       }
       lines.push(line);
@@ -362,6 +364,23 @@ class ContentDivisionComponent extends Component {
         topRight: "╗",
         bottomLeft: "╚",
         bottomRight: "╝",
+      },
+      /*
+      ┏━━━━━━━━━━━━━┓
+      ┃             ┃
+      ┃   unicorn   ┃
+      ┃             ┃
+      ┗━━━━━━━━━━━━━┛
+       */
+      thick: {
+        top: "━",
+        left: "┃",
+        right: "┃",
+        button: "━",
+        topLeft: "┏",
+        topRight: "┓",
+        bottomLeft: "┗",
+        bottomRight: "┛",
       },
     } as const;
     const isValidThemeName = (name: string): name is keyof typeof themes =>
