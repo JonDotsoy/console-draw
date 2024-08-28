@@ -1,7 +1,7 @@
 {
   "name": "@jondotsoy/console-draw",
   "module": "index.ts",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "Draw in the terminal using simple-to-use components",
   "type": "module",
   "license": "MIT",
